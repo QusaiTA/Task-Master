@@ -25,3 +25,7 @@
 
 **Settings Activity**
 ![image description](ScreenShots/and33.png)
+
+**AWS Working approval**
+![image description](ScreenShots/database.png)
+
