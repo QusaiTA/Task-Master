@@ -63,8 +63,8 @@ public class AddTask extends AppCompatActivity {
                         response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
                         error -> Log.e("MyAmplifyApp", "Create failed", error)
                 );
-                Intent goToHomePage = new Intent(AddTask.this, MainActivity.class);
-                startActivity(goToHomePage);
+                Intent home = new Intent(AddTask.this, MainActivity.class);
+                startActivity(home);
 
             }
         });
