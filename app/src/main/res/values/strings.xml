@@ -19,4 +19,11 @@
     <string name="state1">State :</string>
     <string name="body1">Body :</string>
     <string name="state2">state2</string>
+    <string name="radiobutton">RadioButton</string>
+    <string name="radiobutton1">RadioButton</string>
+    <string name="radiobutton2">RadioButton</string>
+    <string name="team">Team</string>
+    <string name="one">One</string>
+    <string name="two">Two</string>
+    <string name="three">Three</string>
 </resources>

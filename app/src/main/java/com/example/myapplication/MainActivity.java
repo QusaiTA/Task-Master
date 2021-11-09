@@ -27,6 +27,7 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private TaskDao taskDao;
     private AppDataBase appDataBase;
     private List<Task> taskList = new ArrayList<>();
+    private List<Team>teams=new ArrayList<>();
+    private List<com.amplifyframework.datastore.generated.model.Task> taskList1 = new ArrayList<>();
+
     private TaskAdapter taskAdapter;
 
     @Override
@@ -102,6 +106,12 @@ public class MainActivity extends AppCompatActivity {
 //        AllTasks.setAdapter(new TaskAdapter(tasks,this));
 //
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String instName = sharedPreferences.getString("username", "Go and set the Instructor Name");
+
+        TextView welcome = findViewById(R.id.welcomeMsg);
+        welcome.setText(instName + " : Task");
+
         try {
             // Add these lines to add the AWSApiPlugin plugins
             Amplify.addPlugin(new AWSApiPlugin()); // stores things in DynamoDB and allows us to perform GraphQL queries
@@ -111,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
+
+        SharedPreferences sharedPreferences1=PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String team=sharedPreferences1.getString("team","team");
 
 
         RecyclerView AllTasks = findViewById(R.id.taskRecycler);
@@ -128,17 +141,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Amplify.API.query(
-                ModelQuery.list(com.amplifyframework.datastore.generated.model.Task.class),
+                ModelQuery.list(Team.class),
                 response -> {
-                    for (com.amplifyframework.datastore.generated.model.Task todo : response.getData()) {
-                       Task taskOrg = new Task(todo.getTitle(),todo.getBody(),todo.getState());
-                        Log.i("graph testing", todo.getTitle());
-                        taskList.add(taskOrg);
+                    for (Team todo : response.getData()) {
+//                       Task taskOrg = new Task(todo.getTitle(),todo.getBody(),todo.getState());
+//                        Log.i("graph testing", todo.getTitle());
+                        teams.add(todo);
+                    }
+                    for (int i = 0; i < teams.size(); i++) {
+                        if (teams.get(i).getTeamName().equals(team)){
+                            taskList1.addAll(teams.get(i).getTasks());
+                        }
                     }
                     handler.sendEmptyMessage(1);
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
+
+        AllTasks.setAdapter(new TaskAdapter(taskList,this));
+        AllTasks.setLayoutManager(new LinearLayoutManager(this));
+        String team1 = sharedPreferences.getString("team", "team");
+        TextView teamName = findViewById(R.id.teamHomePage);
+        teamName.setText(team1);
 
     }
 
@@ -146,11 +170,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String instName = sharedPreferences.getString("username", "Go and set the Instructor Name");
-
-        TextView welcome = findViewById(R.id.welcomeMsg);
-        welcome.setText(instName + " : Task");
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        String instName = sharedPreferences.getString("username", "Go and set the Instructor Name");
+//
+//        TextView welcome = findViewById(R.id.welcomeMsg);
+//        welcome.setText(instName + " : Task");
 
 //        appDataBase = Room.databaseBuilder(getApplicationContext(),AppDataBase.class,"task").allowMainThreadQueries().build();
 //        taskDao = appDataBase.taskDao();
