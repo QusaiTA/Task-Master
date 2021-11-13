@@ -48,8 +48,7 @@ public class AddTask extends AppCompatActivity {
                 String taskBodyVal  =taskBody.getText().toString();
                 String taskStateVal =taskState.getText().toString();
 
-//                Task task = new Task(taskTitleVal,taskBodyVal,taskStateVal);
-//                taskDao.insertAll(task);
+
 
                 textView.setText("Task Count :" + count++);
                 com.amplifyframework.datastore.generated.model.Task todo = Task.builder()
@@ -63,8 +62,7 @@ public class AddTask extends AppCompatActivity {
                         response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
                         error -> Log.e("MyAmplifyApp", "Create failed", error)
                 );
-                Intent home = new Intent(AddTask.this, MainActivity.class);
-                startActivity(home);
+
 
             }
         });
