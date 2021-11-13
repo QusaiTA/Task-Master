@@ -62,7 +62,8 @@ public final class Task implements Model {
       return updatedAt;
   }
   
-  private Task(String id, String title, String body, String state, Team team) {
+  private Task(String id, String title, String body, String state) {
+
     this.id = id;
     this.title = title;
     this.body = body;
