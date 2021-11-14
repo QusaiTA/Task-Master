@@ -19,4 +19,15 @@
     <string name="state1">State :</string>
     <string name="body1">Body :</string>
     <string name="state2">state2</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="email1">Email</string>
+    <string name="password2">password</string>
+    <string name="sign_in1">Sign IN</string>
+    <string name="confirm_email">Confirm Email</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="confirm">Confirm</string>
+    <string name="logout">Logout</string>
+    <string name="sign_in">Sign IN</string>
+    <string name="sign_up">Sign Up</string>
 </resources>

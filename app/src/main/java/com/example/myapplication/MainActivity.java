@@ -26,6 +26,7 @@ import androidx.room.Room;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
 
@@ -71,8 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             // Add these lines to add the AWSApiPlugin plugins
-            Amplify.addPlugin(new AWSDataStorePlugin());
+//            Amplify.addPlugin(new AWSDataStorePlugin());
             Amplify.addPlugin(new AWSApiPlugin()); // stores things in DynamoDB and allows us to perform GraphQL queries
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
@@ -108,6 +110,20 @@ public class MainActivity extends AppCompatActivity {
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
 
+        Button logOut = findViewById(R.id.Logout);
+        logOut.setOnClickListener(view -> {
+            Amplify.Auth.signOut(
+                    () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                    error -> Log.e("not complemte", error.toString())
+            );
+
+            Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+            startActivity(intent);
+        });
+
+
+
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -116,9 +132,15 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String instName = sharedPreferences.getString("username", "Go and set the Instructor Name");
+        String userEmail = sharedPreferences.getString("email", "Go and set the Instructor Name");
+
+
 
         TextView welcome = findViewById(R.id.welcomeMsg);
         welcome.setText(instName + " : Task");
+
+        TextView userEmail1 = findViewById(R.id.userEmailLabel);
+        userEmail1.setText(userEmail);
 
 
 
