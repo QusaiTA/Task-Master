@@ -22,6 +22,9 @@ public class AllTask extends AppCompatActivity {
 
                 Intent intent   = new Intent(AllTask.this, MainActivity.class);
                 startActivity(intent);
+
+
+                
             }
         });
     }

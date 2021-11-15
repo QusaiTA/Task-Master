@@ -24,10 +24,12 @@ public final class Task implements Model {
   public static final QueryField TITLE = field("Task", "title");
   public static final QueryField BODY = field("Task", "body");
   public static final QueryField STATE = field("Task", "state");
+  public static final QueryField IMG = field("Task", "img");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String") String body;
   private final @ModelField(targetType="String") String state;
+  private final @ModelField(targetType="String") String img;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -46,6 +48,10 @@ public final class Task implements Model {
       return state;
   }
   
+  public String getImg() {
+      return img;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -54,11 +60,12 @@ public final class Task implements Model {
       return updatedAt;
   }
   
-  private Task(String id, String title, String body, String state) {
+  public Task(String id, String title, String body, String state, String img) {
     this.id = id;
     this.title = title;
     this.body = body;
     this.state = state;
+    this.img = img;
   }
   
   @Override
@@ -73,6 +80,7 @@ public final class Task implements Model {
               ObjectsCompat.equals(getTitle(), task.getTitle()) &&
               ObjectsCompat.equals(getBody(), task.getBody()) &&
               ObjectsCompat.equals(getState(), task.getState()) &&
+              ObjectsCompat.equals(getImg(), task.getImg()) &&
               ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
       }
@@ -85,6 +93,7 @@ public final class Task implements Model {
       .append(getTitle())
       .append(getBody())
       .append(getState())
+      .append(getImg())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -99,6 +108,7 @@ public final class Task implements Model {
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("state=" + String.valueOf(getState()) + ", ")
+      .append("img=" + String.valueOf(getImg()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -122,6 +132,7 @@ public final class Task implements Model {
       id,
       null,
       null,
+      null,
       null
     );
   }
@@ -130,7 +141,8 @@ public final class Task implements Model {
     return new CopyOfBuilder(id,
       title,
       body,
-      state);
+      state,
+      img);
   }
   public interface TitleStep {
     BuildStep title(String title);
@@ -142,6 +154,7 @@ public final class Task implements Model {
     BuildStep id(String id);
     BuildStep body(String body);
     BuildStep state(String state);
+    BuildStep img(String img);
   }
   
 
@@ -150,6 +163,7 @@ public final class Task implements Model {
     private String title;
     private String body;
     private String state;
+    private String img;
     @Override
      public Task build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -158,7 +172,8 @@ public final class Task implements Model {
           id,
           title,
           body,
-          state);
+          state,
+          img);
     }
     
     @Override
@@ -180,6 +195,12 @@ public final class Task implements Model {
         return this;
     }
     
+    @Override
+     public BuildStep img(String img) {
+        this.img = img;
+        return this;
+    }
+    
     /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -192,11 +213,12 @@ public final class Task implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String body, String state) {
+    private CopyOfBuilder(String id, String title, String body, String state, String img) {
       super.id(id);
       super.title(title)
         .body(body)
-        .state(state);
+        .state(state)
+        .img(img);
     }
     
     @Override
@@ -212,6 +234,11 @@ public final class Task implements Model {
     @Override
      public CopyOfBuilder state(String state) {
       return (CopyOfBuilder) super.state(state);
+    }
+    
+    @Override
+     public CopyOfBuilder img(String img) {
+      return (CopyOfBuilder) super.img(img);
     }
   }
   
