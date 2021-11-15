@@ -34,6 +34,7 @@ public class TaskDetails extends AppCompatActivity {
         textView2.setText(body);
         TextView textView3= findViewById(R.id.stateFinish);
         textView3.setText(state);
+        
 
         ImageView myimg=findViewById(R.id.imageViewImage);
 
