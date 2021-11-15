@@ -29,6 +29,8 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TaskDao taskDao;
     private AppDataBase appDataBase;
-    private List<Task> taskList = new ArrayList<>();
+    private List<com.amplifyframework.datastore.generated.model.Task> taskList = new ArrayList<>();
     private TaskAdapter taskAdapter;
 
     @Override
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 //            Amplify.addPlugin(new AWSDataStorePlugin());
             Amplify.addPlugin(new AWSApiPlugin()); // stores things in DynamoDB and allows us to perform GraphQL queries
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 ModelQuery.list(com.amplifyframework.datastore.generated.model.Task.class),
                 response -> {
                     for (com.amplifyframework.datastore.generated.model.Task todo : response.getData()) {
-                       Task taskOrg = new Task(todo.getTitle(),todo.getBody(),todo.getState());
+                       com.amplifyframework.datastore.generated.model.Task taskOrg = new Task(todo.getId(),todo.getTitle(),todo.getBody(),todo.getState(),todo.getImg());
                         Log.i("graph testing", todo.getTitle());
                         taskList.add(taskOrg);
                     }
