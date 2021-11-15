@@ -12,7 +12,7 @@
 
 
 **Main Activity**
-![image description](ScreenShots/andHome.png)
+![image description](ScreenShots/MainSign.png)
 
 **Add Task Activity**
 ![image description](ScreenShots/addTask2.png)
@@ -28,4 +28,11 @@
 
 **AWS Working approval**
 ![image description](ScreenShots/database.png)
+
+**Sign Up Activity**
+![image description](ScreenShots/signUpand.png)
+
+**Sign in Activity**
+![image description](ScreenShots/SignInand.png)
+
 
